@@ -595,7 +595,7 @@ $UIAspectY = 1.0
 $UItransp = 0.75
 
 [Preset]
-name = -- 21:9 -- resolutions - UI 25% transp
+name = -- 21:9 -- Resolutions - UI 25% transp
 $width = 2560
 $height = 1080
 $gameWidth = 1920
@@ -670,7 +670,7 @@ $UIAspectY = 1.0
 $UItransp = 0.75
 
 [Preset]
-name = -- 16:10 -- resolutions - UI 25% transp
+name = -- 16:10 -- Resolutions - UI 25% transp
 $width = 1440
 $height = 900
 $gameWidth = 1920
@@ -790,7 +790,7 @@ $UIAspectY = ( 5120.0 / 3200.0 ) / (1920.0 / 1080.0)
 $UItransp = 0.75
 
 [Preset]
-name = -- 48:9 -- resolutions - UI 25% transp
+name = -- 48:9 -- Resolutions - UI 25% transp
 $width = 5760
 $height = 1080
 $gameWidth = 1920

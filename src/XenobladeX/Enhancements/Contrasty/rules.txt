@@ -27,7 +27,7 @@ $bleach = 1.0
 $sharp_mix = 0.0
 
 [Preset]
-name = High Contrasty - shadow lift
+name = High Contrasty - Shadow lift
 $redShadows = 1.0
 $greenShadows = 1.0
 $blueSadows = 1.0
@@ -116,6 +116,7 @@ $sharp_mix = 0.1
 
 [Preset]
 name = Default
+default = 1
 $redShadows = 1.0
 $greenShadows = 1.0
 $blueSadows = 1.0
