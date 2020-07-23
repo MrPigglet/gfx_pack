@@ -5,6 +5,9 @@ path = "The Legend of Zelda: Breath of the Wild/Mods/Static Gamespeed"
 description = Do not mix this with Dynamic Gamespeed as it is a simplified version of it.|It removes the dynamic-timestep part in order to provide more accurate emulation because it does not estimate the current FPS while it keeps the performance boosts.|For the most accurate and bug free emulation, use it at 30FPS.||Made by Xalphenos and epigramx.
 version = 5
 
+[Default]
+$targetFPS:int = 60
+
 [Preset]
 name = Static 45FPS
 $targetFPS:int = 45
