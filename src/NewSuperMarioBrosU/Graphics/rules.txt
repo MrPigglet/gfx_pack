@@ -14,6 +14,7 @@ $gameWidth = 1280
 $gameHeight = 720
 $gamePadWidth = 854
 $gamePadHeight = 480
+$shadowRes = 1
 $blurQuality = 0.0
 
 
@@ -143,12 +144,13 @@ $padHeight = 4320
 
 [Preset]
 category = Shadow Quality
-name = Medium (100%, Default)
+name = Low (50%)
+$shadowRes = 0.5
 
 [Preset]
 category = Shadow Quality
-name = Low (50%)
-$shadowRes = 0.5
+name = Medium (100%, Default)
+default = 1
 
 [Preset]
 category = Shadow Quality

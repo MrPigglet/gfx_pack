@@ -5,8 +5,15 @@ path = "The Legend of Zelda: Twilight Princess HD/Mods/Distant Fog"
 description = Sets the depth and exposure of distant fog.|Possible issues with disappearing objects.||Made by getdls.
 version = 5
 
+[Default]
+$distanceFog = 21.0
+$nearExp = 0.0039
+$bloomExp = 0.0039
+$distExp = 0.0039
+
 [Preset]
 name = Default
+default = 1
 $distanceFog = 21.0
 $nearExp = 0.0039
 $bloomExp = 0.0039
