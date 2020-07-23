@@ -2,8 +2,11 @@
 titleIds = 0005000010116100,00050000101C4C00,00050000101C4D00
 name = Field of View
 path = "Xenoblade Chronicles X/Mods/Field of View" 
-description = Changes the field of view (FOV). Fixes edge framing for 21:9 cinematics and other FOV tweaks.
-version = 4
+description = Changes the field of view (FOV).|Fixes edge framing for 21:9 cinematics and other FOV tweaks.
+version = 5
+
+[Default]
+$fov = 1.0
 
 [Preset]
 name = Default FOV  

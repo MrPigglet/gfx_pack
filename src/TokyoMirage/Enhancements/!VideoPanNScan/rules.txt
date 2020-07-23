@@ -2,8 +2,12 @@
 titleIds = 00050000101ED700,00050000101ED800,0005000010131D00
 name = Video pan n scan
 path = "Tokyo Mirage Sessions FE/Graphics/Video pan n scan"
-description = 21:9 Video, cuts of sides instead of pillar-boxing. Made by getdls.
-version = 4
+description = 21:9 Video, cuts of sides instead of pillar-boxing.||Made by getdls.
+version = 5
+
+[Default]
+$UIAspectX = 1.0
+$UIAspectY = 1.0
 
 [Preset]
 name = 21:9 Pan n scan (Cut top, bottom)

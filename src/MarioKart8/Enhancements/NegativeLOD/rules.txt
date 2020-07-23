@@ -3,7 +3,17 @@ titleIds = 000500001010ec00,000500001010ed00,000500001010eb00
 name = Texture level of detail
 path = "Mario Kart 8/Enhancements/Negative Texture LOD"
 description = Sharper textures at risk of shimmering when set too high.
-version = 4
+version = 5
+
+[Default]
+$0x031 = 0
+$0x033 = 0
+$0x034 = 0
+$0x035 = 0
+$0x01a = 0
+$0x431 = 0
+$0x235 = 0
+$0x433 = 0
 
 [Preset]
 name = LOD -0.5 (Sharper)

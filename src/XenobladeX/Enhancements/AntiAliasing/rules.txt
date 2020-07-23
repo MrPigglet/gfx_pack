@@ -2,8 +2,16 @@
 titleIds = 0005000010116100,00050000101C4C00,00050000101C4D00
 name = Anti-Aliasing Pack
 path = "Xenoblade Chronicles X/Enhancements/Anti-Aliasing"
-description = Enables or Disables Native Anti-Aliasing. Also includes an alternative FXAA implementation. Check the "Anti-Aliasing/rules.txt" file in your Botw AA graphicPack folder for info about the individual settings.
-version = 4
+description = Enables or Disables Native Anti-Aliasing. Also includes an alternative FXAA implementation.|Check the "Anti-Aliasing/rules.txt" file in your Botw AA graphicPack folder for info about the individual settings.
+version = 5
+
+[Default]
+$Preset:int = 1
+$LessAA = 0.0
+$MoreAA = 0.0
+$subPix = 0.75
+$edgeThreshold = 0.166
+$edgeThresholdMin = 0.0312
 
 [Preset]
 name = Nvidias FXAA

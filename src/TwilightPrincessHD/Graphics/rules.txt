@@ -3,7 +3,21 @@ titleIds = 000500001019C800,000500001019E600,000500001019E500
 name = Graphics
 path = "The Legend of Zelda: Twilight Princess HD/Graphics"
 description = Changes the resolution of the game.||Made by getdls.
-version = 4
+version = 5
+
+[Default]
+$width = 1920
+$height = 1080
+$gameWidth = 1920
+$gameHeight = 1080
+$dither = 0.01
+$scaleShader = 1.0
+$scaleBlur = 0.05
+$internalRes = 1.0
+$aspectRatio = (16.0/9.0)
+$UIAspectX = 1.0
+$UIAspectY = 1.0
+$UItransp = 1.0
 
 [Preset]
 name = 1920x1080 (Native)
@@ -113,7 +127,7 @@ $UIAspectY = 1.0
 $UItransp = 1.0
 
 [Preset]
-name = -- 21:9 -- resolutions
+name = -- 21:9 -- Resolutions
 $width = 2560
 $height = 1080
 $gameWidth = 1920
@@ -173,7 +187,7 @@ $UIAspectY = 1.0
 $UItransp = 1.0
 
 [Preset]
-name = -- 16:10 -- resolutions
+name = -- 16:10 -- Resolutions
 $width = 1440
 $height = 900
 $gameWidth = 1920
@@ -293,7 +307,7 @@ $UIAspectY = ( 5120.0 / 3200.0 ) / (1920.0 / 1080.0)
 $UItransp = 1.0
 
 [Preset]
-name = -- 48:9 -- resolutions
+name = -- 48:9 -- Resolutions
 $width = 5760
 $height = 1080
 $gameWidth = 1920
