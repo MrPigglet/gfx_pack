@@ -5,6 +5,9 @@ path = "Sonic Boom: Rise of Lyric/Mods/Uncapped Framerate"
 description = This patches out the framerate cap that the game has in place.|Performance may increase from changing the recompiler to be dual or triple core.||Made by Slashiee.
 version = 5
 
+[Default]
+$targetFPS:int = 60
+
 [Preset]
 name = 60FPS (ideal for 240/120/60Hz displays)
 $targetFPS:int = 60
