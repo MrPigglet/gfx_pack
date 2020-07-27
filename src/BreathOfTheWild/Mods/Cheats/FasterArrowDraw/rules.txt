@@ -2,5 +2,68 @@
 titleIds = 00050000101C9300,00050000101C9400,00050000101C9500
 name = Faster Arrow Draw
 path = "The Legend of Zelda: Breath of the Wild/Mods/Cheats/Faster Arrow Draw"
-description = BotW Cheats by C313571N and Xalphenos
+description = Increases speed that arrows are drawn at.||Made by C313571N and Xalphenos.
 version = 5
+
+[Default]
+$factor = 1
+$superSpeed = 0
+
+[Preset]
+name = Disable Super Speed Options
+category = Super Speed
+
+[Preset]
+name = Enable Super Speed Options
+category = Super Speed
+$superSpeed = 1
+
+[Preset]
+name = Default Speed
+category = Active Speed
+default = 1
+
+[Preset]
+name = 1.5x Speed
+category = Active Speed
+$factor = 1.5
+
+[Preset]
+name = 2x Speed
+category = Active Speed
+$factor = 2
+
+[Preset]
+name = 3x Speed
+category = Active Speed
+$factor = 3
+
+[Preset]
+name = 10x Speed
+condition = $superSpeed == 1
+category = Active Speed
+$factor = 10
+
+[Preset]
+name = 20x Speed
+condition = $superSpeed == 1
+category = Active Speed
+$factor = 20
+
+[Preset]
+name = 30x Speed
+condition = $superSpeed == 1
+category = Active Speed
+$factor = 30
+
+[Preset]
+name = 40x Speed
+condition = $superSpeed == 1
+category = Active Speed
+$factor = 40
+
+[Preset]
+name = 50x Speed
+condition = $superSpeed == 1
+category = Active Speed
+$factor = 50
