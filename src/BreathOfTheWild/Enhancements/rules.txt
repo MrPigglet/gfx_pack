@@ -1,0 +1,212 @@
+[Definition]
+titleIds = 00050000101C9300,00050000101C9400,00050000101C9500
+name = "Enhancements"
+path = "The Legend of Zelda: Breath of the Wild/Enhancements"
+description = Enable or disable post-processing options for BoTW.|Changing LOD requires a restart.||Made by Kiri, Jamie, BSoD Gaming, Crementif and Pig.
+version = 5
+
+[Default]
+$preset:int = 10
+$disableClarity:int = 0
+$disableDOF:int = 0
+$reflExtra:int = 0
+$advancedLOD = 0
+$lodBias = 0
+
+# Clarity
+
+[Preset]
+name = Serfrost's Preset (Default)
+category = Clarity
+$preset:int = 10
+
+[Preset]
+name = Serfrost's Preset (Dim Display)
+category = Clarity
+$preset:int = 9
+
+[Preset]
+name = Serfrost's Preset (Bright Display)
+category = Clarity
+$preset:int = 8
+
+[Preset]
+name = Bruz's Preset
+category = Clarity
+$preset:int = 1
+
+[Preset]
+name = CellHunter's Preset
+category = Clarity
+$preset:int = 7
+
+[Preset]
+name = Jamie's Preset
+category = Clarity
+$preset:int = 3
+
+[Preset]
+name = BSoD Gaming's Preset
+category = Clarity
+$preset:int = 2
+
+[Preset]
+name = The Complaining Gamer's Preset
+category = Clarity
+$preset:int = 5
+
+[Preset]
+name = ViskClarity Preset
+category = Clarity
+$preset:int = 11
+
+[Preset]
+name = Contrasty Preset
+category = Clarity
+$preset:int = 4
+
+[Preset]
+name = Filmic Preset
+category = Clarity
+$preset:int = 6
+
+[Preset]
+name = Silentverge's Survival of the Wild Preset (Warmer)
+category = Clarity
+$preset:int = 12
+
+[Preset]
+name = Silentverge's Survival of the Wild Preset (Colder)
+category = Clarity
+$preset:int = 13
+
+[Preset]
+name = Godot's Mexican Preset
+category = Clarity
+$preset:int = 14
+
+[Preset]
+name = User-Defined Preset
+category = Clarity
+$preset:int = 0
+
+[Preset]
+name = Disabled
+category = Clarity
+default = 1
+$disableClarity:int = 1
+
+# Anti-Aliasing
+
+
+
+# Depth of Field
+
+[Preset]
+name = DOF
+category = Depth Of Field
+default = 1
+
+[Preset]
+name = No DOF
+category = Depth Of Field
+$disableDOF:int = 1
+
+# Enhanced Reflections
+
+[Preset]
+name = Normal Reflections
+category = Reflections
+default = 1
+
+[Preset]
+name = Enhanced Reflections
+category = Reflections
+$reflExtra:int = 1
+
+# LOD Bias
+
+[Preset]
+name = Normal Options
+category = Experimental LOD Options
+default = 1
+
+[Preset]
+name = Experimental Options
+category = Experimental LOD Options
+$advancedLOD = 1
+
+[Preset]
+name = (+16) Lowest texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = +16
+
+[Preset]
+name = (+8) Extremely low texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = +8
+
+[Preset]
+name = (+4) Very low texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = +4
+
+[Preset]
+name = (+3) Much lower texture detail
+category = Texture LOD
+$lodBias = +3
+
+[Preset]
+name = (+2) Lower texture detail
+category = Texture LOD
+$lodBias = +2
+
+[Preset]
+name = (+1) Slightly lower texture detail 
+category = Texture LOD
+$lodBias = +1
+
+[Preset]
+name = (Default) Normal texture detail
+category = Texture LOD
+default = 1
+
+[Preset]
+name = (-1) Slightly higher texture detail
+category = Texture LOD
+$lodBias = -1
+
+[Preset]
+name = (-2) Higher texture detail
+category = Texture LOD
+$lodBias = -2
+
+[Preset]
+name = (-3) Much higher texture detail
+category = Texture LOD
+$lodBias = -3
+
+[Preset]
+name = (-4) Very high texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = -4
+
+[Preset]
+name = (-8) Extremely high texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = -8
+
+[Preset]
+name = (-16) Highest texture detail
+category = Texture LOD
+condition = $advancedLOD == 1
+$lodBias = -16
+
+[TextureRedefine]
+formats = 0x31,0x32,0x34,0x35,0x431,0x432,0x433,0x234,0x235
+overwriteRelativeLodBias = $lodBias
