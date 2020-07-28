@@ -1,8 +1,8 @@
 [Definition]
 titleIds = 00050000101C9300,00050000101C9400,00050000101C9500
-name = No Cel-Shading Pack
-path = "The Legend of Zelda: Breath of the Wild/Mods/Cel-Shading Removal"
-description = Changes the type of shading on Link and the world.|Menu Workaround will make Link invisible in the inventory.||Made by SkalFate, Altros and Pig.
+name = Cel-Shading Pack
+path = "The Legend of Zelda: Breath of the Wild/Mods/Cel-Shading"
+description = Changes the type of shading on Link and the world.|Inventory Menu Workaround will make Link invisible in the inventory.||Made by SkalFate, Altros and Pig.
 version = 5
 
 [Default]
@@ -21,138 +21,132 @@ $sblue = 1
 
 [Preset]
 name = Cel-Shading Disabled
-category = Main
+category = Preset
 default = 1
 
 [Preset]
 name = Light Shading
-category = Main
+category = Preset
 $mode:int = 6
 $shdwFix:int = 2 # To hide Shadow Dropdowns
 
 [Preset]
 name = Painting Shading (World)
-category = Main
+category = Preset
 $mode:int = 8
 $shdwFix:int = 2 # To hide Shadow Dropdowns
 
 [Preset]
 name = Painting Shading (World & Link)
-category = Main
+category = Preset
 $mode:int = 10
 $shdwFix:int = 2 # To hide Shadow Dropdowns
 
-[Preset]
-name = Normal Mode
-category = Main
-$mode:int = 0
-$shdwFix:int = 2 # To hide Shadow Dropdowns
-
-# Amiibo Mode
+# Plastic Mode
 
 [Preset]
 name = Disabled
-category = Amiibo Mode
+category = Plastic Mode
 condition = $mode == 4
 default = 1
 $clarity = 1
 
 [Preset]
-name = Plastic %100
-category = Amiibo Mode
+name = Plastic 100%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.05
 
 [Preset]
-name = Plastic %95
-category = Amiibo Mode
+name = Plastic 95%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.15
 
 [Preset]
-name = Plastic %90
-category = Amiibo Mode
+name = Plastic 90%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.30
 
 [Preset]
-name = Plastic %85
-category = Amiibo Mode
+name = Plastic 85%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.37
 
 [Preset]
-name = Plastic %75
-category = Amiibo Mode
+name = Plastic 75%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.43
 
 [Preset]
-name = Plastic %65
-category = Amiibo Mode
+name = Plastic 65%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.50
 
 [Preset]
-name = Plastic %55
-category = Amiibo Mode
+name = Plastic 55%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.57
 
 [Preset]
-name = Plastic %45
-category = Amiibo Mode
+name = Plastic 45%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.65
 
 [Preset]
-name = Plastic %35
-category = Amiibo Mode
+name = Plastic 35%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.75
 
 [Preset]
-name = Plastic %25
-category = Amiibo Mode
+name = Plastic 25%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 0.95
 
 [Preset]
-name = Plastic %15
-category = Amiibo Mode
+name = Plastic 15%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 1.15
 
 [Preset]
-name = Plastic %5
-category = Amiibo Mode
+name = Plastic 5%
+category = Plastic Mode
 condition = $mode == 4
 $clarity = 1.35
 
 # Menu Workaround
 
 [Preset]
-name = Disabled
-category = Menu Workaround
+name = Disabled (Glitchy Inventory Background)
+category = Inventory Menu Workaround
 condition = $mode == 4
 default = 1
 
 [Preset]
-name = Enabled
-category = Menu Workaround
+name = Enabled (Removes Link)
+category = Inventory Menu Workaround
 condition = $mode == 4
 $menuWrkrnd:int = 1
 
 # Shadow Fix Verison
 
 [Preset]
-name = Altros
+name = Altros Version
 category = Shadow Fix Version
 condition = $mode == 4
 $shdwFix:int = 0
 
 [Preset]
-name = SkalFate
+name = SkalFate Version
 category = Shadow Fix Version
 condition = $mode == 4
 $shdwFix:int = 1
