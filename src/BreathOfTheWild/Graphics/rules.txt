@@ -2,7 +2,7 @@
 titleIds = 00050000101C9300,00050000101C9400,00050000101C9500
 name = Graphics
 path = "The Legend of Zelda: Breath of the Wild/Graphics"
-description = Allows you to change the game resolution and shadow resolution.||Made by Kiri, Skalfate, rajkosto and NAVras.
+description = Allows you to change the game resolution, shadow resolution and anti-aliasing.||Made by Kiri, Skalfate, rajkosto and NAVras.
 version = 5
 
 [Default]
@@ -11,7 +11,11 @@ $height = 720
 $gameWidth = 1280
 $gameHeight = 720
 $heightfix = 0
+$fxaa:int = 1
 $shadowRes = 1
+$subPix:int = 1.0
+$edgeThreshold:int = 0.125
+$edgeThresholdMin:int = 0.0156
 
 [Preset]
 name = 1280x720 (16:9) (Default)
@@ -241,16 +245,34 @@ category = Resolution
 $width = 21600
 $height = 4050
 
-# Shadow Graphics Pack
+# Anti-Aliasing
 
 [Preset]
-name = Medium (100%, Default)
-category = Shadows
+name = Normal FXAA
+category = Anti-Aliasing
+default = 1
+
+[Preset]
+name = NVIDIA FXAA
+category = Anti-Aliasing
+$fxaa:int = 2
+
+[Preset]
+name = None
+category = Anti-Aliasing
+$fxaa:int = 0
+
+# Shadow Graphics Pack
 
 [Preset]
 name = Low (50%)
 category = Shadows
 $shadowRes = 0.5
+
+[Preset]
+name = Medium (100%, Default)
+default = 1
+category = Shadows
 
 [Preset]
 name = High (200%)
