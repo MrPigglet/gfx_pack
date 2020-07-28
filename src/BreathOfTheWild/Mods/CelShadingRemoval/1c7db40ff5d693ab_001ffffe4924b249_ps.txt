@@ -1,27 +1,34 @@
-#version 420
+#version 430
 #extension GL_ARB_texture_gather : enable
 #extension GL_ARB_separate_shader_objects : enable
+// shader 1c7db40ff5d693ab
+// Used for: Link and all NPCs Shadows Renderer, NPC Distant Fog RGB Renderer, Body RGB renderer - Dumped with Cemu 1.20.1
+
+// start of shader inputs/outputs, predetermined by Cemu. Do not touch
 #ifdef VULKAN
 #define ATTR_LAYOUT(__vkSet, __location) layout(set = __vkSet, location = __location)
 #define UNIFORM_BUFFER_LAYOUT(__glLocation, __vkSet, __vkLocation) layout(set = __vkSet, binding = __vkLocation, std140)
 #define TEXTURE_LAYOUT(__glLocation, __vkSet, __vkLocation) layout(set = __vkSet, binding = __vkLocation)
-#define SET_POSITION(_v) gl_Position = _v; gl_Position.z = (gl_Position.z + gl_Position.w) / 2.0
 #define GET_FRAGCOORD() vec4(gl_FragCoord.xy*uf_fragCoordScale.xy,gl_FragCoord.zw)
-#define gl_VertexID gl_VertexIndex
-#define gl_InstanceID gl_InstanceIndex
 #else
 #define ATTR_LAYOUT(__vkSet, __location) layout(location = __location)
 #define UNIFORM_BUFFER_LAYOUT(__glLocation, __vkSet, __vkLocation) layout(binding = __glLocation, std140) 
 #define TEXTURE_LAYOUT(__glLocation, __vkSet, __vkLocation) layout(binding = __glLocation)
-#define SET_POSITION(_v) gl_Position = _v
 #define GET_FRAGCOORD() vec4(gl_FragCoord.xy*uf_fragCoordScale,gl_FragCoord.zw)
 #endif
-/* This shaders was auto-converted from OpenGL to Cemu.
-Conversion output:
-*/
+#ifdef VULKAN
+layout(set = 1, binding = 11) uniform ufBlock
+{
+uniform ivec4 uf_remappedPS[33];
+uniform vec4 uf_fragCoordScale;
+};
+#else
+uniform ivec4 uf_remappedPS[33];
+uniform vec2 uf_fragCoordScale;
+#endif
 
-
-// shader 1c7db40ff5d693ab -- Link and all NPCs Shadows Renderer , NPC Distant Fog RGB Renderer , Body RGB renderer
+#define bright $bright
+#define shdwFix $shdwFix
 #define smode $smode
 #define shadowsbrightness $shadowsbrightness
 #define sred $sred
@@ -44,17 +51,6 @@ Conversion output:
     #define sblue 1
 #endif
 
-
-#ifdef VULKAN
-layout(set = 1, binding = 11) uniform ufBlock
-{
-uniform ivec4 uf_remappedPS[33];
-uniform vec4 uf_fragCoordScale;
-};
-#else
-uniform ivec4 uf_remappedPS[33];
-uniform vec2 uf_fragCoordScale;
-#endif
 TEXTURE_LAYOUT(0, 1, 0) uniform sampler2D textureUnitPS0;
 TEXTURE_LAYOUT(2, 1, 1) uniform sampler2D textureUnitPS2;
 TEXTURE_LAYOUT(3, 1, 2) uniform sampler2D textureUnitPS3;
@@ -74,7 +70,7 @@ layout(location = 1) out vec4 passPixelColor1;
 layout(location = 2) out vec4 passPixelColor2;
 layout(location = 3) out vec4 passPixelColor3;
 layout(location = 4) out vec4 passPixelColor4;
-// uf_fragCoordScale was moved to the ufBlock
+// end of shader inputs/outputs
 void redcCUBE(vec4 src0, vec4 src1, out vec3 stm, out int faceId)
 {
 // stm -> x .. s, y .. t, z .. MajorAxis*2.0
@@ -170,6 +166,27 @@ return floatBitsToInt(clamp(intBitsToFloat(v), 0.0, 1.0));
 float mul_nonIEEE(float a, float b){ if( a == 0.0 || b == 0.0 ) return 0.0; return a*b; }
 void main()
 {
+
+#if (shdwFix == 0) // Initiate Altros
+
+ivec4 Temp0i = ivec4(0);
+ivec4 Temp1i = ivec4(0);
+ivec4 High0i = ivec4(0);
+ivec4 Low0i = ivec4(0);
+ivec4 Left0i = ivec4(0);
+ivec4 Right0i = ivec4(0);
+ivec4 YHigh0i = ivec4(0);
+ivec4 YLow0i = ivec4(0);
+ivec4 YLeft0i = ivec4(0);
+ivec4 YRight0i = ivec4(0);
+ivec4 BHigh0i = ivec4(0);
+ivec4 BLow0i = ivec4(0);
+ivec4 BLeft0i = ivec4(0);
+ivec4 BRight0i = ivec4(0);
+ivec4 LtBlueShadow = ivec4(0);
+
+#endif
+
 ivec4 R0i = ivec4(0);
 ivec4 R1i = ivec4(0);
 ivec4 R2i = ivec4(0);
@@ -214,10 +231,14 @@ vec3 cubeMapSTM;
 int cubeMapFaceId;
 float cubeMapArrayIndex7 = 0.0;
 R0i = floatBitsToInt(passParameterSem0); // Links cutout comes from passparamsem0
-R1i = floatBitsToInt(passParameterSem2);
+R1i = floatBitsToInt(passParameterSem2); // no cel shading
 R2i = floatBitsToInt(passParameterSem6);
 
+#if (shdwFix == 1) // SkalFate math magic
+
 ivec4 Temp0i = ivec4(0); // initializes a temp vector for shadow mathe-magics
+
+#endif
 
 // ------------------------------------------------------------------------------------------------------------- dynamic shadows on link
 if( activeMaskStackC[1] == true ) {
@@ -288,7 +309,18 @@ R9i.z = floatBitsToInt(intBitsToFloat(uf_remappedPS[4].w) + intBitsToFloat(PV1i.
 PV0i.z = R9i.z;
 R123i.w = floatBitsToInt((mul_nonIEEE(-(intBitsToFloat(R125i.y)),intBitsToFloat(uf_remappedPS[5].z)) + intBitsToFloat(R125i.x)));
 PV0i.w = R123i.w;
+
+#if (shdwFix == 0 || shdwFix == 1) // Altros and SkalFate
+
 tempResultf = log2(intBitsToFloat(R3i.y));
+
+#else 
+
+tempResultf = max(0.0, intBitsToFloat(R3i.y));
+tempResultf = log2(tempResultf);
+
+#endif
+
 if( isinf(tempResultf) == true ) tempResultf = -3.40282347E+38F;
 R127i.y = floatBitsToInt(tempResultf);
 PS0i = R127i.y;
@@ -352,7 +384,18 @@ PV1i.x = tempi.x;
 PV1i.y = tempi.x;
 PV1i.z = tempi.x;
 PV1i.w = tempi.x;
+
+#if (shdwFix == 0 || shdwFix == 1) // Altros and SkalFate
+
 tempResultf = log2(intBitsToFloat(PV0i.x));
+
+#else 
+
+tempResultf = max(0.0, intBitsToFloat(PV0i.x));
+tempResultf = log2(tempResultf);
+
+#endif
+
 if( isinf(tempResultf) == true ) tempResultf = -3.40282347E+38F;
 PS1i = floatBitsToInt(tempResultf);
 // 14
@@ -376,7 +419,18 @@ R17i.x = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R124i.x), intBitsToFloat(PS1i
 R17i.y = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R126i.y), intBitsToFloat(PS1i)));
 R13i.z = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R125i.z), intBitsToFloat(PS1i)));
 R127i.w = floatBitsToInt((intBitsToFloat(R125i.y) * intBitsToFloat(0x3ba3d70a) + intBitsToFloat(0xbfe66666)));
+
+#if (shdwFix == 0 || shdwFix == 1) // Altros and SkalFate
+
 tempResultf = log2(intBitsToFloat(R127i.x));
+
+#else
+
+tempResultf = max(0.0, intBitsToFloat(R127i.x));
+tempResultf = log2(tempResultf);
+
+#endif
+
 if( isinf(tempResultf) == true ) tempResultf = -3.40282347E+38F;
 PS0i = floatBitsToInt(tempResultf);
 // 17
@@ -411,7 +465,18 @@ R5i.y = R6i.y;
 R5i.y = clampFI32(R5i.y);
 R0i.z = floatBitsToInt(mul_nonIEEE(intBitsToFloat(PV1i.y), intBitsToFloat(uf_remappedPS[15].w)));
 R3i.w = floatBitsToInt(intBitsToFloat(PV1i.w) + -(1.0));
+
+#if (shdwFix == 0 || shdwFix == 1) // Altros and SkalFate
+
 tempResultf = log2(intBitsToFloat(R125i.x));
+
+#else
+
+tempResultf = max(0.0, intBitsToFloat(R125i.x));
+tempResultf = log2(tempResultf);
+
+#endif
+
 if( isinf(tempResultf) == true ) tempResultf = -3.40282347E+38F;
 R0i.w = floatBitsToInt(tempResultf);
 PS0i = R0i.w;
@@ -670,6 +735,7 @@ PV0i.x = floatBitsToInt(mul_nonIEEE(intBitsToFloat(PV1i.w), intBitsToFloat(R5i.z
 PV0i.y = floatBitsToInt(mul_nonIEEE(intBitsToFloat(PV1i.x), intBitsToFloat(R5i.y)));
 PV0i.w = floatBitsToInt(mul_nonIEEE(intBitsToFloat(PV1i.z), intBitsToFloat(R3i.z)));
 // 9
+// setting RGB for link to use in shadow calculations
 R0i.x = floatBitsToInt((intBitsToFloat(PV0i.y) * intBitsToFloat(0x3f6e896b) + intBitsToFloat(0x3a011b1e)));
 R0i.y = floatBitsToInt((intBitsToFloat(PV0i.x) * intBitsToFloat(0x3f6e896b) + intBitsToFloat(0x3a011b1e)));
 R2i.z = floatBitsToInt((intBitsToFloat(PV0i.w) * intBitsToFloat(0x3f6e896b) + intBitsToFloat(0x3a011b1e)));
@@ -714,9 +780,9 @@ PV0i.z = R123i.z; // links whole body green
 R123i.w = floatBitsToInt((mul_nonIEEE(intBitsToFloat(R11i.y),intBitsToFloat(R2i.w)) + intBitsToFloat(PV1i.x)));
 PV0i.w = R123i.w; // links whole body blue
 // 7
-R4i.x = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].x),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.y))); // affects color of links back side
-R5i.y = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].y),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.z))); // affects color of links back side
-R6i.z = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].z),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.w))); // affects color of links back side
+R4i.x = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].x),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.y)));
+R5i.y = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].y),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.z)));
+R6i.z = floatBitsToInt((mul_nonIEEE(intBitsToFloat(uf_remappedPS[15].z),intBitsToFloat(R10i.z)) + intBitsToFloat(PV0i.w)));
 // 8
 predResult = (intBitsToFloat(R14i.x) != intBitsToFloat(0x3dc0c0c1));
 activeMaskStack[1] = predResult;
@@ -726,15 +792,349 @@ else {
 activeMaskStack[1] = false;
 activeMaskStackC[2] = false;
 }
-
+// actually deals with all light. Current method just brightens all of link.
 // ------------------------------------------------------------------------------------------------------------- false makes link back-side shadow blue, light entity behind link
 if( activeMaskStackC[2] == true ) {
 // 0
+// r0i.x r0i.y, r2i.z carries RGB of ambient light on link
 R3i.xyz = floatBitsToInt(vec3(intBitsToFloat(R2i.x),intBitsToFloat(R2i.y),intBitsToFloat(R4i.z)) + vec3(intBitsToFloat(R0i.x),intBitsToFloat(R0i.y),intBitsToFloat(R2i.z)));
 R3i.w = 0x3f800000;
 R0i.x = 0;
 
+#if (shdwFix != 1) // SkalFate
+
+PS0i = R0i.x;
+
+#endif
+
 // 1
+
+#if (shdwFix == 0) // Big Altros Part here
+
+//R0i.yzw = ivec3(0,0,0);
+//R0i.xyz = R3i.xyz;
+
+// simple effective method previously in use
+//R0i.x = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R1i.x),intBitsToFloat(R15i.x) * bright)+ intBitsToFloat(R1i.x) * bright);
+//R0i.y = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R1i.y),intBitsToFloat(R15i.y) * bright)+ intBitsToFloat(R1i.y) * bright);
+//R0i.z = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R1i.z),intBitsToFloat(R15i.z) * bright)+ intBitsToFloat(R1i.z) * bright);
+// end simple method
+
+// ***************************************************************
+// ***************************************************************
+// ***************************************************************
+// 						REFERENCE MATERIAL
+// ***************************************************************
+// ***************************************************************
+// ***************************************************************
+
+
+// R17i darkest shadows mask
+// R7i meduim shadows mask
+// R11i anything not very bright mask
+
+
+
+// ***********************
+// when set as R0i.xyz output DAY REDO
+// ***********************
+//
+//R0i.x = floatBitsToInt(intBitsToFloat(R15i.x) * bright);
+//R0i.y = floatBitsToInt(intBitsToFloat(R15i.y) * bright);
+//R0i.z = floatBitsToInt(intBitsToFloat(R15i.z) * bright);
+//
+// *********************************************************
+// skin colors
+// R0i pale dark blue
+// R1i base skin tone
+// R2i some highlights on dark skin tone
+// R3i some highlights on dark skin tone
+// R4i green R5i blue R6i green highlights
+
+// glows
+// R8i masive light blue glow
+// R9i dark blue glow
+
+// skin tones
+// R10i intense red skin
+// R11i pink skin
+// R12i dark brown skin
+// R13i teal skin
+// R14i green skin
+// R15i neutral skin tone still a bit dark****** winner
+// R16i dark tone
+// R17i highlights green and red on dark skin tone
+// R122i pretty much black
+// R123i pretty much black
+// R124i has pink
+// R125i dark purple
+// R126i dark has green night tones
+// R127i dark purple
+
+
+// ***********************
+// when miultiplied by R15i unknown time
+// ***********************
+// skin colors
+// R0i dark tone
+// R1i dark tone
+// R2i black shadow
+// R3i reasonable but a touch dark skin tone
+// R4i green overtone R5i dark shadows R6i darkens
+
+// glows
+// R8i masive light blue skin less glow
+// R8i dark blue skin less glow
+// R7i nice warm skin tones
+
+// skin tones
+// R10i intense red skin
+// R11i black shadows
+// R12i red to shadows and light red glow to skin
+// R13i add teal to shadows
+// R14i green skin all
+// R15i adds some intensity to colors mostly in the reds of the shadows
+// R16i dark tone
+// R17i highlights green and red on dark skin tone
+// R122i pretty much black
+// R123i pretty much black
+// R124i has pink
+// R125i dark purple
+// R126i dark has green night tones
+// R127i dark purple
+
+
+
+// ***********************
+// when miultiplied "mul_nonIEEE( R1i *  R##i )" by R1i in DAYLIGHT
+// ***********************
+// skin colors
+// R0i saturated shadows                             -- cel shaded
+// R1i very neutral                                                          -- NO CEL SHADING WINNER
+// R2i dark blue shadows                             -- cel shaded 
+// R3i dark warm skin tone                           -- cel shaded
+// R4i green overtone R5i dark shadows R6i darkens                           -- no cel
+// R7i blueish shadow                                -- cel shaded
+
+// glows
+// R8i masive light blue skin less glow
+// R9i dark blue skin less glow
+
+
+// skin tones
+// R10i intense red skin                                      - no cel apparent
+// R11i red sgadiws                                           - no cel apparent
+// R12i pinkish shadows possible combined with sky light color -- cel shaded
+// R13i add teal shadows                                                     -- no cel
+// R14i green skin all                                                       -- no cel
+// R15i adds some intensity to colors mostly in the reds of the shadows      -- NO CEL SHADING WINNER
+// R16i desaturated highlights in shadows                                    -- NO CEL SHADING WINNER for add highlights
+// R17i highlights green and red on dark skin tone                           -- no cel
+// R122i dark reds 															 -- no cel
+// R123i seems a reflective map                                              -- no cel goldish tones since reflecting sun
+// R124i has pink 															 -- no cel
+// R125i dark purple 														 -- no cel
+// R126i dark has green night tones 										 -- no cel
+// R127i dark red 															 -- no cel
+
+
+
+// ***********************
+// when set as R0i.xyz output at NIGHT
+// ***********************
+//
+//R0i.x = floatBitsToInt(intBitsToFloat(R15i.x) * bright);
+//R0i.y = floatBitsToInt(intBitsToFloat(R15i.y) * bright);
+//R0i.z = floatBitsToInt(intBitsToFloat(R15i.z) * bright);
+//
+// *********************************************************
+// skin colors
+// R0i skin tone with a bit too much pinks red
+// R1i base skin tone flat neutral no highlights
+// R2i some highlights on dark skin tone
+// R3i dark tone may carry brightness of environmnt light
+// R4i green R5i blue with base highlight R6i puke reen overtone
+
+// glows
+// R8i masive light blue glow... when multiplied by x only provides a green ovetone
+// R9i dark blue glow
+// R7i pinkish on shadows on bright side greenish on dark side. Kinda like R17i with irs red green 
+
+// skin tones
+// R10i intense red all skin
+// R11i very dark
+// R12i dark red with clothes and lit side ignored
+// R13i teal skin lit side ignored
+// R14i green all skin
+// R15i neutral skin tone still a bit dark****** winner
+// R16i dark tone
+// R17i highlights green and red on dark skin tone
+// R122i dark red overtones
+// R123i pretty much black
+// R124i has pink overtone
+// R125i dark blue purple overtone
+// R126i dark has green overtone
+// R127i dark red overtones
+
+// use with R15i for white
+// use with R1i for sky tone mostly yellow
+// + R17i.y  shadows low
+// - R17i.y  shadows high
+// + R17i.x  shadows left
+// - R17i.x  shadows right
+
+
+// ***********************
+// when added to "floatBitsToInt( R1i +  R##i )" by R1i in DAYLIGHT
+// ***********************
+// skin colors
+// R0i saturated shadows                             -- cel shaded
+// R1i very neutral                                                          -- NO CEL SHADING WINNER
+// R2i dark blue shadows                             -- cel shaded 
+// R3i dark warm skin tone                           -- cel shaded
+// R4i green overtone R5i blue overtones R6i yellow  overtones                         -- no cel
+// R7i add yellow to shadow and blue to light        -- cel shaded?           Shadow map
+
+// glows
+// R8i masive light blue skin less glow
+// R9i dark blue skin less glow
+
+
+// skin tones
+// R10i intense red skin                                      - no cel apparent
+// R11i red shadows                                           - no cel apparent possible use shadow map
+// R12i pinkish shadows possible combined with sky light color -- cel shaded
+// R13i add teal shadows                                                     -- no cel
+// R14i green skin all                                                       -- no cel
+// R15i adds some intensity to colors mostly in the reds of the shadows      -- NO CEL SHADING WINNER
+// R16i desaturated highlights in shadows                                    -- NO CEL SHADING WINNER for add highlights
+// R17i highlights green and red on dark skin tone                           -- no cel Shadow mask
+// R122i dark reds 															 -- no cel
+// R123i seems a reflective map                                              -- no cel goldish tones since reflecting sun
+// R124i has pink 															 -- no cel
+// R125i dark purple 														 -- no cel
+// R126i dark has green night tones 										 -- no cel
+// R127i dark red 															 -- no cel
+ 
+// ***************************************************************
+// ***************************************************************
+// ***************************************************************
+// 					END REFERENCE MATERIAL
+// ***************************************************************
+// ***************************************************************
+// ***************************************************************
+
+
+// The next sectiona make shadow masks using various base colors and directions of shadows
+
+// Section 1 		r15 for white tone with shadow on side described
+Left0i.x = floatBitsToInt(intBitsToFloat(R15i.x) + intBitsToFloat(R17i.x));
+Left0i.y = floatBitsToInt(intBitsToFloat(R15i.y) + intBitsToFloat(R17i.x));
+Left0i.z = floatBitsToInt(intBitsToFloat(R15i.z) + intBitsToFloat(R17i.x));
+
+// Low0i.x = floatBitsToInt(intBitsToFloat(R15i.x) + intBitsToFloat(R17i.y));
+// Low0i.y = floatBitsToInt(intBitsToFloat(R15i.y) + intBitsToFloat(R17i.y));
+// Low0i.z = floatBitsToInt(intBitsToFloat(R15i.z) + intBitsToFloat(R17i.y));
+
+Right0i.x = floatBitsToInt(intBitsToFloat(R15i.x) - intBitsToFloat(R17i.x));
+Right0i.y = floatBitsToInt(intBitsToFloat(R15i.y) - intBitsToFloat(R17i.x));
+Right0i.z = floatBitsToInt(intBitsToFloat(R15i.z) - intBitsToFloat(R17i.x));
+
+High0i.x = floatBitsToInt(intBitsToFloat(R15i.x) - intBitsToFloat(R17i.y));
+High0i.y = floatBitsToInt(intBitsToFloat(R15i.y) - intBitsToFloat(R17i.y));
+High0i.z = floatBitsToInt(intBitsToFloat(R15i.z) - intBitsToFloat(R17i.y));
+//********************************************************
+
+
+
+// Section 2 		R1i for yellow tone with shoadow on side described
+// YLeft0i.x = floatBitsToInt(intBitsToFloat(R1i.x) + intBitsToFloat(R17i.x));
+// YLeft0i.y = floatBitsToInt(intBitsToFloat(R1i.y) + intBitsToFloat(R17i.x));
+// YLeft0i.z = floatBitsToInt(intBitsToFloat(R1i.z) + intBitsToFloat(R17i.x));
+
+// YLow0i.x = floatBitsToInt(intBitsToFloat(R1i.x) + intBitsToFloat(R17i.y));
+// YLow0i.y = floatBitsToInt(intBitsToFloat(R1i.y) + intBitsToFloat(R17i.y));
+// YLow0i.z = floatBitsToInt(intBitsToFloat(R1i.z) + intBitsToFloat(R17i.y));
+
+YRight0i.x = floatBitsToInt(intBitsToFloat(R1i.x) - intBitsToFloat(R17i.x));
+YRight0i.y = floatBitsToInt(intBitsToFloat(R1i.y) - intBitsToFloat(R17i.x));
+YRight0i.z = floatBitsToInt(intBitsToFloat(R1i.z) - intBitsToFloat(R17i.x));
+
+YHigh0i.x = floatBitsToInt(intBitsToFloat(R1i.x) - intBitsToFloat(R17i.y));
+YHigh0i.y = floatBitsToInt(intBitsToFloat(R1i.y) - intBitsToFloat(R17i.y));
+YHigh0i.z = floatBitsToInt(intBitsToFloat(R1i.z) - intBitsToFloat(R17i.y));
+//********************************************************
+
+
+
+// Section 3		R123i Light on side described, blue light of sky or occluded (shines) becomes empty, night dark blue
+// BLeft0i.x = floatBitsToInt(intBitsToFloat(R123i.x) - intBitsToFloat(R17i.x));
+// BLeft0i.y = floatBitsToInt(intBitsToFloat(R123i.y) - intBitsToFloat(R17i.x));
+// BLeft0i.z = floatBitsToInt(intBitsToFloat(R123i.z) - intBitsToFloat(R17i.x));
+
+// BLow0i.x = floatBitsToInt(intBitsToFloat(R123i.x) - intBitsToFloat(R17i.y));
+// BLow0i.y = floatBitsToInt(intBitsToFloat(R123i.y) - intBitsToFloat(R17i.y));
+// BLow0i.z = floatBitsToInt(intBitsToFloat(R123i.z) - intBitsToFloat(R17i.y));
+
+// BRight0i.x = floatBitsToInt(intBitsToFloat(R123i.x) + intBitsToFloat(R17i.x));
+// BRight0i.y = floatBitsToInt(intBitsToFloat(R123i.y) + intBitsToFloat(R17i.x));
+// BRight0i.z = floatBitsToInt(intBitsToFloat(R123i.z) + intBitsToFloat(R17i.x));
+
+BHigh0i.x = floatBitsToInt(intBitsToFloat(R123i.x) + intBitsToFloat(R17i.y));
+BHigh0i.y = floatBitsToInt(intBitsToFloat(R123i.y) + intBitsToFloat(R17i.y));
+BHigh0i.z = floatBitsToInt(intBitsToFloat(R123i.z) + intBitsToFloat(R17i.y));
+//********************************************************
+
+
+
+// Section 4 		Blue over tone shadows with slight green rim light
+LtBlueShadow.x = floatBitsToInt(intBitsToFloat(R13i.x)*.2 + intBitsToFloat(R7i.y));
+LtBlueShadow.y = floatBitsToInt(intBitsToFloat(R13i.y)*.2 + intBitsToFloat(R7i.y));
+LtBlueShadow.z = floatBitsToInt(intBitsToFloat(R13i.y)*.2 + intBitsToFloat(R7i.y));
+//********************************************************
+
+
+//Section 5 		Darken shadows
+// Temp0i.x = floatBitsToInt(intBitsToFloat(R16i.x) + intBitsToFloat(R11i.y));
+// Temp0i.y = floatBitsToInt(intBitsToFloat(R16i.y) + intBitsToFloat(R11i.y));
+// Temp0i.z = floatBitsToInt(intBitsToFloat(R16i.z) + intBitsToFloat(R11i.y));
+//********************************************************
+
+
+// subtract white left shadow from white base using min
+R0i.x = floatBitsToInt(min(intBitsToFloat(R1i.x), intBitsToFloat(Left0i.x) * bright));
+R0i.y = floatBitsToInt(min(intBitsToFloat(R1i.y), intBitsToFloat(Left0i.y) * bright));
+R0i.z = floatBitsToInt(min(intBitsToFloat(R1i.z), intBitsToFloat(Left0i.z) * bright));
+
+// subtract white high shadow from above using min
+R0i.x = floatBitsToInt(min(intBitsToFloat(R0i.x), intBitsToFloat(High0i.x) * bright));
+R0i.y = floatBitsToInt(min(intBitsToFloat(R0i.y), intBitsToFloat(High0i.y) * bright));
+R0i.z = floatBitsToInt(min(intBitsToFloat(R0i.z), intBitsToFloat(High0i.z) * bright));
+
+// subtract yellow high shadow from above using min
+R0i.x = floatBitsToInt(min(intBitsToFloat(R0i.x), intBitsToFloat(YHigh0i.x) * bright));
+R0i.y = floatBitsToInt(min(intBitsToFloat(R0i.y), intBitsToFloat(YHigh0i.y) * bright));
+R0i.z = floatBitsToInt(min(intBitsToFloat(R0i.z), intBitsToFloat(YHigh0i.z) * bright));
+
+// subtract yellow right shadow from above using min
+R0i.x = floatBitsToInt(min(intBitsToFloat(R0i.x), intBitsToFloat(Right0i.x) * bright*.7));
+R0i.y = floatBitsToInt(min(intBitsToFloat(R0i.y), intBitsToFloat(Right0i.y) * bright*.7));
+R0i.z = floatBitsToInt(min(intBitsToFloat(R0i.z), intBitsToFloat(Right0i.z) * bright*.7));
+
+// make a base color by using mul_nonIEEE with the calculated shadow and the white base color. Add in the shadow, white, light blue masked over shadow, blue sky light masked over high locations, and what I think is a reflective map.
+R0i.x = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R0i.x), intBitsToFloat(R1i.x)) * bright + intBitsToFloat(R0i.x) * bright + intBitsToFloat(R1i.x) * bright + intBitsToFloat(LtBlueShadow.x) * bright + intBitsToFloat(BHigh0i.x) * bright + intBitsToFloat(R123i.x) * bright) ;
+
+R0i.y = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R0i.y), intBitsToFloat(R1i.y)) * bright + intBitsToFloat(R0i.y) * bright + intBitsToFloat(R1i.y) * bright + intBitsToFloat(LtBlueShadow.y) * bright + intBitsToFloat(BHigh0i.y) * bright + intBitsToFloat(R123i.y) * bright) ;
+
+R0i.z = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R0i.z), intBitsToFloat(R1i.z)) * bright + intBitsToFloat(R0i.z) * bright + intBitsToFloat(R1i.z) * bright + intBitsToFloat(LtBlueShadow.z) * bright + intBitsToFloat(BHigh0i.z) * bright + intBitsToFloat(R123i.z) * bright) ;
+
+
+
+R0i.w = R3i.w;
+// r0i our color output from the if statement passed on for furthur use
+
+#elif (shdwFix == 1) // SkalFate Big Part
+
 if(smode == 1) // run custom code
 {
 	// -- 1. one way to do it
@@ -802,6 +1202,12 @@ else // run the original shader code
 	PS0i = R0i.x;
 	R0i.yzw = ivec3(0,0,0); // orginal code
 }
+
+#else
+
+R0i.yzw = ivec3(0,0,0);
+
+#endif
 
 }
 activeMaskStack[1] = activeMaskStack[1] == false;
@@ -873,8 +1279,10 @@ R3i.x = floatBitsToInt(mul_nonIEEE(intBitsToFloat(R16i.x), intBitsToFloat(PV1i.z
 PS0i = R3i.x;
 }
 
+
 // ------------------------------------------------------------------------------------------------------------- false makes link back side brightened up and affected by light changes, front shadows and back affected.
 if( activeMaskStackC[2] == true ) {
+// can increases texture lod in attempt to get higher res tetures at a distance on enemies
 R0i.xyz = floatBitsToInt(textureLod(textureUnitPS7, vec4(redcCUBEReverse(intBitsToFloat(R0i.xy),R0i.z),cubeMapArrayIndex7),intBitsToFloat(R0i.w)).xyz);
 }
 
@@ -927,8 +1335,19 @@ R4i.w = R7i.x;
 }
 // export
 passPixelColor0 = vec4(intBitsToFloat(R0i.x), intBitsToFloat(R0i.y), intBitsToFloat(R0i.z), intBitsToFloat(R0i.w)); // light/shadows on link front side
-passPixelColor1 = vec4(intBitsToFloat(R1i.x)*0, intBitsToFloat(R1i.y)*0, intBitsToFloat(R1i.z)*0, intBitsToFloat(R1i.w)); // links and all npcs fog rgb
+
+#if (shdwFix == 1) // SkalFate
+
+passPixelColor1 = vec4(intBitsToFloat(R1i.x) * 0, intBitsToFloat(R1i.y) * 0, intBitsToFloat(R1i.z) * 0, intBitsToFloat(R1i.w)); // links and all npcs fog rgb
 passPixelColor2 = vec4(intBitsToFloat(R2i.x) * sred, intBitsToFloat(R2i.y) * sgreen, intBitsToFloat(R2i.z) * sblue, intBitsToFloat(R2i.w)) ; // Controls link RGB only in celshade mode and when original code is run (line 713). In no-celshade mode it changes the lighting on links back-side away from the sun
+
+#else
+
+passPixelColor1 = vec4(intBitsToFloat(R1i.x), intBitsToFloat(R1i.y), intBitsToFloat(R1i.z), intBitsToFloat(R1i.w)); // links and all npcs fog rgb
+passPixelColor2 = vec4(intBitsToFloat(R2i.x), intBitsToFloat(R2i.y), intBitsToFloat(R2i.z), intBitsToFloat(R2i.w)); // Controls link RGB only in celshade mode and when original code is run (line 713). In no-celshade mode it changes the lighting on links back-side away from the sun
+
+#endif
+
 passPixelColor3 = vec4(intBitsToFloat(R3i.x), intBitsToFloat(R3i.y), intBitsToFloat(R3i.z), intBitsToFloat(R3i.w));
 passPixelColor4 = vec4(intBitsToFloat(R4i.x), intBitsToFloat(R4i.y), intBitsToFloat(R4i.z), intBitsToFloat(R4i.w));
 }

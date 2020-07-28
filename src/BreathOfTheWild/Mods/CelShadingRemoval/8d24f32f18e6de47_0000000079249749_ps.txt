@@ -31,6 +31,10 @@ uniform vec4 uf_fragCoordScale;
 uniform ivec4 uf_remappedPS[10];
 uniform vec2 uf_fragCoordScale;
 #endif
+
+#define mode $mode
+#define clarity $clarity
+
 TEXTURE_LAYOUT(1, 1, 0) uniform sampler2D textureUnitPS1;
 TEXTURE_LAYOUT(2, 1, 1) uniform sampler2D textureUnitPS2;
 TEXTURE_LAYOUT(4, 1, 2) uniform sampler2D textureUnitPS4;
@@ -180,8 +184,8 @@ R3i = floatBitsToInt(passParameterSem4);
 R4i = floatBitsToInt(passParameterSem6);
 R7i.xyzw = floatBitsToInt(texture(textureUnitPS2, intBitsToFloat(R4i.zw)).xyzw);
 R2i.w = floatBitsToInt(texture(textureUnitPS4, intBitsToFloat(R0i.xy)).x);
-R5i.xyzw = floatBitsToInt(textureGather(textureUnitPS6, intBitsToFloat(R0i.xy)).xyzw);
-R6i.xyzw = floatBitsToInt(textureGather(textureUnitPS7, intBitsToFloat(R0i.xy)).xyzw);
+R5i.xyzw = floatBitsToInt(textureGather(textureUnitPS6, vec2(0.0001) + intBitsToFloat(R0i.xy)).xyzw);
+R6i.xyzw = floatBitsToInt(textureGather(textureUnitPS7, vec2(0.0001) + intBitsToFloat(R0i.xy)).xyzw);
 R8i.xyzw = floatBitsToInt(texture(textureUnitPS1, intBitsToFloat(R4i.zw)).xyzw);
 // 0
 R127i.x = floatBitsToInt((intBitsToFloat(R7i.x) * 2.0 + -(1.0)));
@@ -403,7 +407,7 @@ R124i.z = floatBitsToInt(mul_nonIEEE(intBitsToFloat(uf_remappedPS[3].z), intBits
 //(R3i.w)*.01
 // R3i.w how plastic a surface can look. Seems to change how much the bump mapping affects the surface  .01 pure plastic - 65 nearly only the light grey cloud-ish texutre over top characters. 
 // Combine pure plastic with low specular further down in the file to make a more matte look
-R127i.w = floatBitsToInt(intBitsToFloat(R3i.w)*$clarity + intBitsToFloat(0x3c23d70a));
+R127i.w = floatBitsToInt(intBitsToFloat(R3i.w) * clarity + intBitsToFloat(0x3c23d70a));
 R127i.w = clampFI32(R127i.w);
 R125i.w = floatBitsToInt(-(intBitsToFloat(R6i.y)) + 1.0);
 PS1i = R125i.w;

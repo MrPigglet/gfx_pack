@@ -33,6 +33,10 @@ uniform ivec4 uf_remappedVS[5];
 uniform ivec4 uf_remappedVS[5];
 // uniform vec2 uf_windowSpaceToClipSpaceTransform; // Cemu optimized this uf_variable away in Cemu 1.15.7
 #endif
+
+#define menuWrkrnd $menuWrkrnd
+#define mode $mode
+
 // uf_windowSpaceToClipSpaceTransform was moved to the ufBlock
 ATTR_LAYOUT(0, 0) in uvec4 attrDataSem0;
 ATTR_LAYOUT(0, 1) in uvec4 attrDataSem1;
@@ -218,7 +222,16 @@ R0i.w = R125i.x;
 PS1i = R0i.w;
 
 // export
+
+#if (mode == 4 && menuWrkrnd == 1)
+
 SET_POSITION(vec4(intBitsToFloat(R1i.x), intBitsToFloat(R1i.y), intBitsToFloat(R1i.z), intBitsToFloat(R1i.w)) * 0);
+
+#else
+
+SET_POSITION(vec4(intBitsToFloat(R1i.x), intBitsToFloat(R1i.y), intBitsToFloat(R1i.z), intBitsToFloat(R1i.w)));
+
+#endif
 
 // export
 passParameterSem0 = vec4(intBitsToFloat(R2i.x), intBitsToFloat(R2i.y), intBitsToFloat(R2i.z), intBitsToFloat(R2i.w));
