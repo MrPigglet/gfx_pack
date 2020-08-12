@@ -1,0 +1,119 @@
+[Definition]
+titleIds = 00050000101C9400,00050000101C9500
+path = "The Legend of Zelda: Breath of the Wild/Mods/Camera Sensitivity"
+description = Changes sensitivity of the camera. Additional Movement Sensitivity is applied on top of General Sensitivity.|Settings will only apply when the pack is disabled and re-enabled||Made by FakeMichau and theboy181.
+version = 5
+
+[Default]
+$all = 1.00
+$foot = 1.00
+
+[Preset]
+name = 0.5x
+category = General Sensitivity
+$all = 0.50
+
+[Preset]
+name = 1x (Default)
+category = General Sensitivity
+default = 1
+
+[Preset]
+name = 1.1x
+category = General Sensitivity
+$all = 1.10
+
+[Preset]
+name = 1.2x
+category = General Sensitivity
+$all = 1.20
+
+[Preset]
+name = 1.3x
+category = General Sensitivity
+$all = 1.30
+
+[Preset]
+name = 1.4x (Recommended)
+category = General Sensitivity
+$all = 1.40
+
+[Preset]
+name = 1.5x
+category = General Sensitivity
+$all = 1.50
+
+[Preset]
+name = 1.75x
+category = General Sensitivity
+$all = 1.75
+
+[Preset]
+name = 2x
+category = General Sensitivity
+$all = 2.00
+
+[Preset]
+name = 2.5x
+category = General Sensitivity
+$all = 2.50
+
+[Preset]
+name = 3x
+category = General Sensitivity
+$all = 3.00
+
+[Preset]
+name = 0.5x
+category = Additional Movement Sensitivity (optional)
+$foot = 0.5
+
+[Preset]
+name = 0.9x
+category = Additional Movement Sensitivity (optional)
+$foot = 0.9
+
+[Preset]
+name = 1x (Default)
+category = Additional Movement Sensitivity (optional)
+default = 1
+
+[Preset]
+name = 1.1x
+category = Additional Movement Sensitivity (optional)
+$foot = 1.10
+
+[Preset]
+name = 1.15x (Recommended)
+category = Additional Movement Sensitivity (optional)
+$foot = 1.15
+
+[Preset]
+name = 1.25x
+category = Additional Movement Sensitivity (optional)
+$foot = 1.25
+
+[Preset]
+name = 1.35x
+category = Additional Movement Sensitivity (optional)
+$foot = 1.35
+
+[Preset]
+name = 1.5x
+category = Additional Movement Sensitivity (optional)
+$foot = 1.50
+
+[Preset]
+name = 2x
+category = Additional Movement Sensitivity (optional)
+$foot = 2.00
+
+[Preset]
+name = 2.5x
+category = Additional Movement Sensitivity (optional)
+$foot = 2.50
+
+[Preset]
+name = 3x
+category = Additional Movement Sensitivity (optional)
+$foot = 3.00
