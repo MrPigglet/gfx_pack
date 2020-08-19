@@ -10,7 +10,6 @@ $width = 1280
 $height = 720
 $gameWidth = 1280
 $gameHeight = 720
-$heightfix = 0
 $fxaa:int = 1
 $shadowRes = 1
 $subPix:int = 1.0
@@ -142,21 +141,18 @@ name = 1680x1050 (16:10)
 category = Resolution
 $width = 1680
 $height = 1050
-$heightfix = 1
 
 [Preset]
 name = 1920x1200 (16:10)
 category = Resolution
 $width = 1920
 $height = 1200
-$heightfix = 1
 
 [Preset]
 name = 2560x1600 (16:10)
 category = Resolution
 $width = 2560
 $height = 1600
-$heightfix = 1
 
 [Preset]
 name = 2880x1800 (16:10)
@@ -169,14 +165,12 @@ name = 3840x2400 (16:10)
 category = Resolution
 $width = 3840
 $height = 2400
-$heightfix = 1
 
 [Preset]
 name = 5120x3200 (16:10)
 category = Resolution
 $width = 5120
 $height = 3200
-$heightfix = 1
 
 # Other Uncommon Resolutions
 
@@ -185,14 +179,12 @@ name = 640x480 (4:3)
 category = Resolution
 $width = 640
 $height = 480
-$heightfix = 1
 
 [Preset]
 name = 1280x960 (4:3)
 category = Resolution
 $width = 1280
 $height = 960
-$heightfix = 1
 
 [Preset]
 name = 1920x1440 (4:3)
@@ -205,21 +197,18 @@ name = 640x512 (5:4)
 category = Resolution
 $width = 640
 $height = 512
-$heightfix = 1
 
 [Preset]
 name = 1280x1024 (5:4)
 category = Resolution
 $width = 1280
 $height = 1024
-$heightfix = 1
 
 [Preset]
 name = 1920x1536 (5:4)
 category = Resolution
 $width = 1920
 $height = 1536
-$heightfix = 1
 
 [Preset]
 name = 5760x1080 (48:9)
@@ -346,7 +335,7 @@ height = 368
 formats = 0x001,0x005,0x007,0x019,0x01a,0x80e,0x806,0x816,0x820,0x41a
 # formatsExcluded = 0x431 # Exclude 0x431 which is used for adventure log images
 overwriteWidth = ($width/$gameWidth) * 640
-overwriteHeight = (($height/$gameHeight) * 368) + $heightfix
+overwriteHeight = (($height/$gameHeight) * 368)
 
 # Required 1/2 resolutions
 [TextureRedefine]
@@ -678,7 +667,7 @@ height = 368
 formats = 0x019
 overwriteFormat = 0x01f
 overwriteWidth = ($width/$gameWidth) * 640
-overwriteHeight = (($height/$gameHeight) * 368 ) + $heightfix
+overwriteHeight = (($height/$gameHeight) * 368 )
 
 [TextureRedefine]
 width = 640
