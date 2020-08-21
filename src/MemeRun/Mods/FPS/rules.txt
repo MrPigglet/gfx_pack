@@ -1,0 +1,76 @@
+[Definition]
+titleIds = 0005000010194000
+name = Static FPS
+path = "Meme Run/Mods/FPS"
+description = Changes the FPS limit to run at any framerate.||Made by Crementif.
+version = 5
+
+[Default]
+$targetFPS:int = 60
+
+[Preset]
+name = 20FPS
+$targetFPS:int = 20
+
+[Preset]
+name = 30FPS
+$targetFPS:int = 30
+
+[Preset]
+name = 40FPS
+$targetFPS:int = 40
+
+[Preset]
+name = 60FPS (Default)
+default = 1
+
+[Preset]
+name = 69FPS
+$targetFPS:int = 69
+
+[Preset]
+name = 72FPS
+$targetFPS:int = 72
+
+[Preset]
+name = 75FPS
+$targetFPS:int = 75
+
+[Preset]
+name = 85FPS
+$targetFPS:int = 85
+
+[Preset]
+name = 100FPS
+$targetFPS:int = 100
+
+[Preset]
+name = 120FPS
+$targetFPS:int = 120
+
+[Preset]
+name = 144FPS
+$targetFPS:int = 144
+
+[Preset]
+name = 165FPS
+$targetFPS:int = 165
+
+[Preset]
+name = 244FPS
+$targetFPS:int = 244
+
+[Preset]
+name = 360FPS
+$targetFPS:int = 360
+
+[Preset]
+name = 420FPS
+$targetFPS:int = 420
+
+[Preset]
+name = 999FPS
+$targetFPS:int = 999
+
+[Control]
+vsyncFrequency = 999 # Max FPS
