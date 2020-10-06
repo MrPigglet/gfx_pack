@@ -12,6 +12,7 @@ $disableDOF:int = 0
 $reflExtra:int = 0
 $advancedLOD = 0
 $lodBias = 0
+$anisotropy = 1
 
 # Clarity
 
@@ -207,6 +208,36 @@ category = Texture LOD
 condition = $advancedLOD == 1
 $lodBias = -16
 
+[Preset]
+name = 16x AF (Recommended)
+category = Anisotropic Filtering
+default = 1
+$anisotropy = 16
+
+[Preset]
+name = 8x AF
+category = Anisotropic Filtering
+$anisotropy = 8
+
+[Preset]
+name = 4x AF
+category = Anisotropic Filtering
+$anisotropy = 4
+
+[Preset]
+name = 2x AF
+category = Anisotropic Filtering
+$anisotropy = 2
+
+[Preset]
+name = 1x AF
+category = Anisotropic Filtering
+$anisotropy = 1
+
 [TextureRedefine]
 formats = 0x31,0x32,0x34,0x35,0x431,0x432,0x433,0x234,0x235
 overwriteRelativeLodBias = $lodBias
+
+[TextureRedefine]
+depth = 83 # the terrain atlas is a 1024x1024x83 texture array
+overwriteAnisotropy = $anisotropy
