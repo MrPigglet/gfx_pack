@@ -239,5 +239,6 @@ formats = 0x31,0x32,0x34,0x35,0x431,0x432,0x433,0x234,0x235
 overwriteRelativeLodBias = $lodBias
 
 [TextureRedefine]
-depth = 83 # the terrain atlas is a 1024x1024x83 texture array
+tileModesExcluded = 0x001 # ignore cpu processed textures (ex. videos)
+formatsExcluded = 0x001,0x005,0x007,0x019,0x01a,0x01f,0x122,0x41a,0x806,0x80e,0x816,0x820 # ignore viewports, cubemaps, and shadows
 overwriteAnisotropy = $anisotropy
