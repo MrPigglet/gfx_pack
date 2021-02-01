@@ -5,4 +5,4 @@
 ------
 ### Information
 ------
-This repo is for working on updating packs for version 5. Once the packs are ready, they will be pushed back to [cemu_graphic_packs](https://github.com/slashiee/cemu_graphic_packs) and this repo will be archived.
+fork of MrPigglet's just for me to add 1 pack
